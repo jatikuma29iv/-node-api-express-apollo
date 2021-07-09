@@ -25,6 +25,9 @@ const app = express();
 
 const router = require('./api-router');
 
+// adding graphql
+const graphql = require('./controllers/graphql-controller')
+
 const port = process.env.PORT || 3000;
 
 app
@@ -50,7 +53,7 @@ app
 
   .use(appmorgan)
 
-  .use(helmet())
+  //.use(helmet())
 
   .use(bodyParser.urlencoded({ extended: true }))
 
@@ -84,9 +87,12 @@ app
       next();
    })
 
+  .use('/api/___graphql', graphql)
+
   .use('/api', router)
 
   .listen(port, () => {
-    logger.info('starting server at port ' + port);
+    logger.info(`Running API server at http://localhost:${port}/api`)
+    logger.info(`Running a GraphQL API server at http://localhost:${port}/api/___graphql`)
   })
 ;

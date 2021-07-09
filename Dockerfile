@@ -1,17 +1,20 @@
 
 # Stage 1: base images
-FROM rhel8/nodejs-12:latest as base
+FROM node:lts-alpine as base
 
-COPY package.json .
+RUN mkdir /home/node/app && chown node:node /home/node/app
 
-RUN npm i
-
-
-FROM base as dev
+WORKDIR /home/node/app
 
 RUN npm install -g nodemon
 
-COPY . .
+ADD --chown=node:node package* .
+
+RUN npm i
+
+ADD --chown=node:node . .
+
+USER node
 
 CMD ["nodemon"]
 
