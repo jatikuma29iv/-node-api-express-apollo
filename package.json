@@ -1,0 +1,32 @@
+{
+  "name": "react-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "cdj",
+  "license": "ISC",
+  "dependencies": {
+    "app-module-path": "^2.2.0",
+    "async": "^3.2.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cls-rtracer": "^2.6.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-device": "^0.4.2",
+    "express-useragent": "^1.0.15",
+    "helmet": "^4.6.0",
+    "log4js": "^6.3.0",
+    "morgan": "^1.10.0",
+    "mssql": "^7.1.0",
+    "multer": "^1.4.2",
+    "tedious": "^9.2.3"
+  },
+  "devDependencies": {
+    "dotenv": "^9.0.2"
+  }
+}
