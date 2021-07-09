@@ -1,7 +1,7 @@
 
 const router = require('express').Router();
 
-const logger = require('./app-logger').getLogger('api-router');
+const logger = require('./api-logger').getLogger('api-router');
 
 const uploadCtrl = require('./controllers/Upload');
 

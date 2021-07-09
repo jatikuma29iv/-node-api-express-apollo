@@ -5,7 +5,7 @@ require('app-module-path/register');
 // load env variables
 require('dotenv').config();
 
-var logger=require('./app-logger').getLogger('api');
+var logger=require('./api-logger').getLogger('api');
 
 const rTracer = require('cls-rtracer')
 
@@ -13,7 +13,7 @@ const device = require('express-device');
 
 const useragent = require('express-useragent');
 
-const appmorgan  = require('./app-morgan');
+const appmorgan  = require('./api-morgan');
 
 const helmet = require("helmet");
 
@@ -23,7 +23,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const router = require('./app-router');
+const router = require('./api-router');
 
 const port = process.env.PORT || 3000;
 
