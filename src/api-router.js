@@ -6,7 +6,7 @@ const logger = require('./api-logger').getLogger('api-router');
 const uploadCtrl = require('./controllers/Upload');
 
 // add employee endpoint
-require('controllers/employee-controller')(router);
+require('./controllers/employee')(router);
 
 module.exports = router
   .get('/', (req,res) => {

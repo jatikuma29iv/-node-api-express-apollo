@@ -19,6 +19,8 @@ const helmet = require("helmet");
 
 const express = require('express');
 
+const { graphqlHTTP } = require('express-graphql')
+
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -26,7 +28,7 @@ const app = express();
 const router = require('./api-router');
 
 // adding graphql
-const graphql = require('./controllers/graphql-controller')
+const schema = require('./schema')
 
 const port = process.env.PORT || 3000;
 
@@ -87,12 +89,12 @@ app
       next();
    })
 
-  .use('/api/___graphql', graphql)
-
   .use('/api', router)
+
+  .use('/graphql', graphqlHTTP({ schema, graphiql: true }))
 
   .listen(port, () => {
     logger.info(`Running API server at http://localhost:${port}/api`)
-    logger.info(`Running a GraphQL API server at http://localhost:${port}/api/___graphql`)
+    logger.info(`Running a GraphQL API server at http://localhost:${port}/graphql`)
   })
 ;
