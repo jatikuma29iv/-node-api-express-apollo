@@ -5,11 +5,23 @@ const { employeeService } = require('../services/employee')
 module.exports = (router) => {
 
   router
-    .get('/employee', (req,res,next) =>
-        res.json(employeeService.getAll())
-    )
+    .get('/employee', async (req,res,next) => {
 
-    .get('/employee/:id', (req, res, next) =>
-      res.json(employeeService.getById(req.params.id))
-    )
+      const data = await employeeService.getAll()
+
+      if(data.err)
+        res.status(400).send(data.err)
+      else
+        res.send(data)
+    })
+
+    .get('/employee/:id', async (req, res, next) => {
+
+      const data = await employeeService.getById(req.params.id)
+
+      if(data.err)
+        res.status(400).send(data.err)
+      else
+        res.send(data)
+    })
 }

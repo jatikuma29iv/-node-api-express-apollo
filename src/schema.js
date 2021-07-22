@@ -6,6 +6,8 @@ const readFileSync = require('./lib/read_file_sync');
 
 const { employeeService } = require('./services/employee')
 
+const { taskService } = require('./services/task')
+
 const { stitchingDirectivesTypeDefs, stitchingDirectivesValidator } = stitchingDirectives();
 
 const typeDefs = `
@@ -20,6 +22,8 @@ module.exports = makeExecutableSchema({
     Query: {
 			employee: (_root, { id }) => employeeService.getById(id) || new NotFoundError(),
 			employees: () => employeeService.getAll(),
+			task: (_root, { id }) => taskService.getById(id) || new NotFoundError(),
+			tasks: () => taskService.getAll(),
       _sdl: () => typeDefs,
     },
   }

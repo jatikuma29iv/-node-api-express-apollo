@@ -15,20 +15,40 @@ docker build -t ma . && docker run --rm --name ma -p 3000:3000 ma
 open `GraphiQL` with url
 
 ```url
-http://localhost:3000/api/___graphql
+http://localhost:3000/graphql
 ```
 
 1. execute simple query
 
 ```json
-{
+
+query getSDL {
+  _sdl
+}
+
+query myTest {
+  employee(id: 1003) {
+    id
+    name
+    age
+    sex
+  }
   employees {
     id
     name
-    sex
     age
+    sex
+    created_at
+  }
+  tasks {
+    id
+    title
+    description
+    is_complete
+    created_at
   }
 }
+
 ```
 
 1. set variable
@@ -59,4 +79,10 @@ query ($id: Int!) {
 
 ## Adding `GraphQl`
 
-npm i express-graphql graphql -s
+npm i express-graphql graphql \
+		@graphql-tools/schema \
+		@graphql-tools/stitching-directives \
+		-s
+
+## Adding db
+npm i knex sqlite3 -s

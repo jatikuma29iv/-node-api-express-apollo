@@ -2,6 +2,8 @@
 type Query {
   employee(id: Int!): Employee
   employees: [Employee]
+  task(id: Int!): Task
+  tasks: [Task]
   _sdl: String!
 }
 type Employee {
@@ -9,4 +11,16 @@ type Employee {
   name: String!
   age: Int!
   sex: String!
+  created_at: String
+  updated_at: String
+  task: [Task]
+}
+type Task {
+  id: Int!
+  title: String!
+  description: String!
+  is_complete: Boolean!
+  employee_id: Int!
+  created_at: String
+  updated_at: String
 }

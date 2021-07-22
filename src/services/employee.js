@@ -1,19 +1,22 @@
 
-const _ = require('lodash')
-
-const employeeRepo = [
-  { id: 1001, name: 'bob',   age: '31', sex: 'm' },
-  { id: 1002, name: 'alice', age: '28', sex: 'f' },
-  { id: 1003, name: 'eve',   age: '25', sex: 'f' },
-]
+const employee = require('../dal/employee')
 
 const employeeService = {
   // employeeService.getById(id)
   getById: id =>
-        _.find(employeeRepo, x => x.id == id)
+        employee.findById(id)
 
   // employeeService.getAll()
-  ,getAll: () => employeeRepo
+  ,getAll: () => employee.find()
+
+  ,set: emp => {
+    if( emp.id )
+      return employee.update( emp.id, emp )
+    else
+      return employee.insert( emp )
+  }
+
+  ,del: id => employee.remove(id)
 }
 
 // exporting service

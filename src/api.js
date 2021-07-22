@@ -89,6 +89,8 @@ app
       next();
    })
 
+  .disable('etag') // to suppress 304
+
   .use('/api', router)
 
   .use('/graphql', graphqlHTTP({ schema, graphiql: true }))

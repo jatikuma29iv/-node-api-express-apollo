@@ -8,6 +8,9 @@ const uploadCtrl = require('./controllers/Upload');
 // add employee endpoint
 require('./controllers/employee')(router);
 
+// add task endpoint
+require('./controllers/task')(router);
+
 module.exports = router
   .get('/', (req,res) => {
     return res.send('<h1>api</h1>');

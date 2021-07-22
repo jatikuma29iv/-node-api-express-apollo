@@ -7,9 +7,10 @@ RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 
 # setup pnpm
-RUN npm install -g pnpm
+RUN npm install -g pnpm nodemon
 
 USER node
 
 CMD pnpm i \
-    && while true; do npm start; sleep 2; done
+    && nodemon
+#    && while true; do HOST=0.0.0.0 nodemon; sleep 2; done

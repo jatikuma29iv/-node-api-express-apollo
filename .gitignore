@@ -50,3 +50,4 @@ package-lock.json
 *.sw?
 uploads/
 .env
+data/*
