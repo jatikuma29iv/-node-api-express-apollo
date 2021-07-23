@@ -1,0 +1,17 @@
+
+type Task {
+  id: Int!
+  title: String!
+  description: String!
+  is_complete: Boolean!
+  employee_id: Int!
+  created_at: String
+  updated_at: String
+  employee: Employee
+}
+
+type Query {
+  task(id: Int!): Task
+  tasks: [Task]
+  _sdl: String!
+}

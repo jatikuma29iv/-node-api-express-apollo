@@ -1,32 +1,59 @@
-# api
+# node-api-express-apollo
 
-## TODO
+`nodejs` `api` boilerplate with both `REST` & `GraphQL` protocols. Made with:
+- express
+- apollo-server-express
+- graphql
+- kenx
+- sqlite3
+- log4js
 
-configure helmet to run `GraphiQL` UI
+`GraphQL` is implemented with `schema merging` (`typeDefs` & `resolvers`)
 
-## how it works
+## Run
 
-run the api
+1. Migrate database
 
 ```bash
-docker build -t ma . && docker run --rm --name ma -p 3000:3000 ma
+npx knex migrate:latest
+
+npx knex seed:run
 ```
 
-open `GraphiQL` with url
+2.1 to execute with `docker`
 
-```url
-http://localhost:3000/graphql
+```bash
+docker build -t api . && docker run --rm --name mpa -p 3000:3000 api
 ```
 
-1. execute simple query
+2.2 to run with node
 
-```json
+```bash
+# make sure nodemon is installed
+npm install -g nodemon
 
-query getSDL {
-  _sdl
-}
+# run with
+npm install
 
-query myTest {
+nodemon
+```
+
+## REST endpoint examples
+
+http://localhost:3000/api/employee
+
+http://localhost:3000/api/task
+
+## GraphQL query examples
+
+open `GraphiQL` with url http://localhost:3000/graphql
+
+### Queries
+- simple query
+
+```graphql
+
+query getAll {
   employee(id: 1003) {
     id
     name
@@ -50,17 +77,9 @@ query myTest {
 }
 ```
 
-1. set variable
+- query with variable
 
-```json
-{
-  "id": 1002
-}
-```
-
-execute query
-
-```json
+```graphql
 query ($id: Int!) {
   employees {
     id
@@ -86,9 +105,17 @@ query ($id: Int!) {
 }
 ```
 
-`Query` with `Join`
+```graphql
+//set variable
 
-```bash
+{
+  "id": 1002
+}
+```
+
+- query with `join`
+
+```graphql
 query Query {
   tasks {
     title
@@ -109,20 +136,23 @@ query Query {
     }
   }
 }
+```
 
+## How tos 
 
-## Adding `GraphQl`
+### Add `GraphQl`
 
 ```bash
 npm i apollo-server-express graphql \
+		@graphql-tools/load-files \
+		@graphql-tools/merge \
 		@graphql-tools/schema \
-		@graphql-tools/stitching-directives \
 		-s
 ```
 
-- Query Joins
+### Create Joins in `GraphQL`
 
-In this case:
+In this examle:
 <pre>
 `Query.employees()` -> `Employee.tasks(parent)` -> `Task.employee(parent)`
 `Query.employee()`  -> `Employee.tasks(parent)` -> `Task.employee(parent)`
@@ -135,10 +165,12 @@ In this case:
 </pre>
 ref: [Resolvers: How to create GraphQl Joins](https://www.apollographql.com/docs/apollo-server/data/resolvers/)
 
-## Adding db
+### Add db
+```bash
 npm i knex sqlite3 -s
+```
 
-- Migration
+for migration
 ```bash
 npx knex init
 
@@ -152,3 +184,11 @@ npm knex seed:make 01-task
 
 npx knex seed:run
 ```
+
+## TODO
+
+configure helmet to run `GraphiQL` UI
+
+[Federation](https://www.apollographql.com/docs/federation/quickstart/)
+
+[Join Query optimization](https://blog.smartive.ch/graphql-and-mysql-solving-the-join-problem-191f40b55961)

@@ -78,7 +78,7 @@ app
   .use('/api', router)
 
 ;(async () => {
-  const server = await require('./schema')(app)
+  const server = await require('./setup-graphql')(app)
 
   const port = process.env.PORT || 3000;
   await new Promise( resolve => app.listen({ port }, resolve ));
