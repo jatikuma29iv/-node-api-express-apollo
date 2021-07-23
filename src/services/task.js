@@ -4,19 +4,23 @@ const task = require('../dal/task')
 const taskService = {
   // taskService.getById(id)
   getById: id =>
-        task.findById(id)
+        task.findById(id),
+
+  // taskService.getByEmpId(empId)
+  getByEmpId: empId =>
+        task.findByEmpId(empId),
 
   // taskService.getAll()
-  ,getAll: () => task.find()
+  getAll: () => task.find(),
 
-  ,set: emp => {
+  set: emp => {
     if( emp.id )
       return task.update( emp.id, emp )
     else
       return task.insert( emp )
-  }
+  },
 
-  ,del: id => task.remove(id)
+  del: id => task.remove(id)
 }
 
 // exporting service

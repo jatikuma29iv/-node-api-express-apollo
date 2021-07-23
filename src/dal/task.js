@@ -21,6 +21,16 @@ module.exports = {
 		}
 	},
 
+  findByEmpId: async empId => {
+		try {
+			return await db('task')
+                    .where({ employee_id: Number(empId) }) || [] // [] => data not found
+		}
+		catch(error) {
+			return { err: error }
+		}
+	},
+
   insert: newEmployee => db('task')
                           .insert(newEmployee)
                           .then(ids => ({ id: ids[0] })),

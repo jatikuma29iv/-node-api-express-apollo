@@ -48,7 +48,6 @@ query myTest {
     created_at
   }
 }
-
 ```
 
 1. set variable
@@ -68,21 +67,88 @@ query ($id: Int!) {
     name
     age
     sex
+    tasks {
+      title
+      description
+    }
   }
   
   employee(id: $id) {
     id
+    name
+    age
+    sex
+    tasks {
+      title
+      description
+    }
   }
 }
 ```
 
+`Query` with `Join`
+
+```bash
+query Query {
+  tasks {
+    title
+    description
+    is_complete
+    employee {
+      name
+      sex
+      tasks {
+        title
+        description
+        is_complete
+        employee {
+          name
+          sex
+        }
+      }
+    }
+  }
+}
+
 
 ## Adding `GraphQl`
 
+```bash
 npm i apollo-server-express graphql \
 		@graphql-tools/schema \
 		@graphql-tools/stitching-directives \
 		-s
+```
+
+- Query Joins
+
+In this case:
+<pre>
+`Query.employees()` -> `Employee.tasks(parent)` -> `Task.employee(parent)`
+`Query.employee()`  -> `Employee.tasks(parent)` -> `Task.employee(parent)`
+`Query.tasks()`     -> `Task.employee(parent)`
+`Query.task()`      -> `Task.employee(parent)`
+    ^                    ^                           ^
+    |                    |                           |
+  is Query                ------ are additional -----
+                       resolvers sibling to Query object
+</pre>
+ref: [Resolvers: How to create GraphQl Joins](https://www.apollographql.com/docs/apollo-server/data/resolvers/)
 
 ## Adding db
 npm i knex sqlite3 -s
+
+- Migration
+```bash
+npx knex init
+
+npx knex migrate:make create-employee
+npx knex migrate:make create-task
+
+npx knex migrate:latest
+
+npm knex seed:make 01-employee
+npm knex seed:make 01-task
+
+npx knex seed:run
+```
