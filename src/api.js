@@ -1,46 +1,31 @@
 // adds src to NODE_PATH
 require('app-module-path/register');
 
-
 // load env variables
 require('dotenv').config();
 
-var logger=require('./api-logger').getLogger('api');
+var logger=require('./api-logger').getLogger('api')
 
 const rTracer = require('cls-rtracer')
+const device = require('express-device')
+const useragent = require('express-useragent')
+const appmorgan  = require('./api-morgan')
+const helmet = require("helmet")
+const express = require('express')
+const bodyParser = require('body-parser')
+const app = express()
 
-const device = require('express-device');
+const router = require('./api-router')
 
-const useragent = require('express-useragent');
-
-const appmorgan  = require('./api-morgan');
-
-const helmet = require("helmet");
-
-const express = require('express');
-
-const { graphqlHTTP } = require('express-graphql')
-
-const bodyParser = require('body-parser');
-
-const app = express();
-
-const router = require('./api-router');
-
-// adding graphql
-const schema = require('./schema')
-
-const port = process.env.PORT || 3000;
-
+// configure server
 app
   .use(rTracer.expressMiddleware({
      useHeader: true,
      headerName: 'X-Sid-Ref'
    }))
 
-// session & refid
+  // session & refid
   .use((req,res,next) => {
-  
     var sessionId = req.headers['x-session'];
   
     if (sessionId) {
@@ -62,7 +47,6 @@ app
   .use(bodyParser.json())
 
   .use((req,res,next) => {
-
     res.on('finish', () => {
       if (res.statusCode >= 400) {
         logger.error('ERR REQUEST - ' + JSON.stringify({
@@ -93,10 +77,12 @@ app
 
   .use('/api', router)
 
-  .use('/graphql', graphqlHTTP({ schema, graphiql: true }))
+;(async () => {
+  const server = await require('./schema')(app)
 
-  .listen(port, () => {
-    logger.info(`Running API server at http://localhost:${port}/api`)
-    logger.info(`Running a GraphQL API server at http://localhost:${port}/graphql`)
-  })
-;
+  const port = process.env.PORT || 3000;
+  await new Promise( resolve => app.listen({ port }, resolve ));
+
+  logger.info(`Running API server at http://localhost:${port}/api`)
+  logger.info(`Running a GraphQL API server at http://localhost:${port}${server.graphqlPath}`)
+})()

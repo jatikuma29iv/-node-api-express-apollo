@@ -13,7 +13,7 @@ type Employee {
   sex: String!
   created_at: String
   updated_at: String
-  task: [Task]
+  tasks: [Task]
 }
 type Task {
   id: Int!

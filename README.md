@@ -79,7 +79,7 @@ query ($id: Int!) {
 
 ## Adding `GraphQl`
 
-npm i express-graphql graphql \
+npm i apollo-server-express graphql \
 		@graphql-tools/schema \
 		@graphql-tools/stitching-directives \
 		-s
