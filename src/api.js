@@ -10,7 +10,7 @@ const rTracer = require('cls-rtracer')
 const device = require('express-device')
 const useragent = require('express-useragent')
 const appmorgan  = require('./api-morgan')
-const helmet = require("helmet")
+//const helmet = require("helmet")
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
@@ -27,7 +27,7 @@ app
   // session & refid
   .use((req,res,next) => {
     var sessionId = req.headers['x-session'];
-  
+
     if (sessionId) {
       req.sessionId = sessionId;
     }
