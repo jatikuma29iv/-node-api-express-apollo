@@ -7,10 +7,11 @@ RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 
 # setup pnpm
-RUN npm install -g pnpm nodemon
+RUN npm install -g pnpm@6.11.5 nodemon
 
 USER node
 
-CMD pnpm i \
+CMD pnpm config set store-dir /home/node/.pnpm-store \
+    && pnpm i --shamefully-hoist \
     && nodemon
 #    && while true; do HOST=0.0.0.0 nodemon; sleep 2; done
